@@ -128,33 +128,45 @@
         <!-- Login Section -->
         <section class="login" id="login">
             <div class="login-container fade-up">
+                <div class="demo-credentials">
+                    <h3>Demo Credentials</h3>
+                    <div class="cred-group">
+                        <p><strong>Admin Access:</strong></p>
+                        <div class="copy-box">
+                            <span>Email:</span>
+                            <code>admin@municipal.gov.ph</code>
+                        </div>
+                        <div class="copy-box">
+                            <span>Pass:</span>
+                            <code>admin123</code>
+                        </div>
+                    </div>
+                    <div class="cred-group">
+                        <p><strong>Employee Access:</strong></p>
+                        <div class="copy-box">
+                            <span>Email:</span>
+                            <code>john.doe@municipal.gov.ph</code>
+                        </div>
+                        <div class="copy-box">
+                            <span>Pass:</span>
+                            <code>employee123</code>
+                        </div>
+                    </div>
+                    <p class="note">Copy values to test the system.</p>
+                </div>
+
                 <div class="login-form">
                     <div class="system-name"><span>LOKAL</span> HRMS</div>
                     <div class="login-dialect">Lúgud king Tawu, Dángal king Balen.</div>
-                    <form id="loginForm" action="handlers/login_handler.php" method="post">
-                        <input type="email" name="govmail" id="govmail" placeholder="Enter GovMail" required>
-                        <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                    <form id="loginForm" action="#" method="post">
+                        <input type="email" name="govmail" id="govmail" placeholder="Enter GovMail" autocomplete="username" required>
+                        <input type="password" name="password" id="password" placeholder="Enter Password" autocomplete="current-password" required>
                         <button type="submit">LOGIN</button>
                     </form>
                     <div id="loginMessage" class="login-message" style="display: none;"></div>
                     <div class="forgot-password">
                         <a href="../User Page/forgot_password.html">Forgot Password?</a>
                     </div>
-                </div>
-
-                <div class="demo-credentials">
-                    <h3>Demo Credentials</h3>
-                    <div class="cred-group">
-                        <p><strong>Admin Access:</strong></p>
-                        <code>Email: admin@municipal.gov.ph</code>
-                        <code>Pass: admin123</code>
-                    </div>
-                    <div class="cred-group">
-                        <p><strong>Employee Access:</strong></p>
-                        <code>Email: john.doe@municipal.gov.ph</code>
-                        <code>Pass: employee123</code>
-                    </div>
-                    <p class="note">Copy and paste to test the system.</p>
                 </div>
             </div>
         </section>

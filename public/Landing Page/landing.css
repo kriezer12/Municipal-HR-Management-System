@@ -705,32 +705,33 @@ tbody tr:hover {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 4rem 2rem;
 }
 
 .login-container {
     display: flex;
-    gap: 30px;
+    gap: 40px;
     width: 100%;
-    max-width: 900px;
-    align-items: stretch;
+    max-width: 1000px;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-form {
-    flex: 1;
+    flex: 0 0 400px;
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     border-radius: 20px;
     padding: 3rem;
-    max-width: 450px;
     width: 100%;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    order: 2; /* Put login form in the middle/right */
 }
 
 .demo-credentials {
-    flex: 0 0 320px;
+    flex: 0 0 350px;
     background: rgba(44, 97, 89, 0.85);
     border-radius: 20px;
     padding: 2.5rem;
@@ -741,8 +742,8 @@ tbody tr:hover {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     text-align: left;
+    order: 1; /* Put credentials box on the left */
 }
 
 .demo-credentials h3 {
@@ -751,6 +752,7 @@ tbody tr:hover {
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     padding-bottom: 0.5rem;
     color: #fff;
+    text-align: center;
 }
 
 .cred-group {
@@ -758,28 +760,47 @@ tbody tr:hover {
 }
 
 .cred-group p {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    color: #e0f2f1;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    color: #fff;
+    font-weight: 600;
 }
 
-.cred-group code {
-    display: block;
+.copy-box {
+    display: flex;
+    align-items: center;
     background: rgba(0, 0, 0, 0.2);
-    padding: 0.5rem 0.8rem;
-    border-radius: 6px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    margin-bottom: 0.3rem;
-    user-select: all;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.copy-box span {
+    font-size: 0.85rem;
+    color: #e0f2f1;
+    margin-right: 10px;
+    min-width: 45px;
+    user-select: none;
+}
+
+.copy-box code {
+    flex: 1;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #fff;
+    user-select: all;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
 .demo-credentials .note {
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 0.85rem;
+    opacity: 0.9;
     font-style: italic;
-    margin-top: auto;
+    margin-top: 1rem;
+    text-align: center;
 }
 
 @media (max-width: 900px) {

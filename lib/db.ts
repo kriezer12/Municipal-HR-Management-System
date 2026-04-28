@@ -6,12 +6,24 @@ let dbInstance: Database.Database | null = null
 
 export function getDB(): Database.Database {
   if (!dbInstance) {
-    const dbPath = path.join(process.cwd(), 'data', 'hrms.db')
-    const dataDir = path.dirname(dbPath)
+    let dbPath = path.join(process.cwd(), 'data', 'hrms.db')
     
-    // Ensure data directory exists
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true })
+    // In Vercel (production), the root file system is read-only.
+    // We move the database to /tmp so we can write to it if needed.
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+      const tmpPath = path.join('/tmp', 'hrms.db')
+      if (!fs.existsSync(tmpPath)) {
+        // Copy the seeded database from the project root to /tmp
+        if (fs.existsSync(dbPath)) {
+          fs.copyFileSync(dbPath, tmpPath)
+        }
+      }
+      dbPath = tmpPath
+    } else {
+      const dataDir = path.dirname(dbPath)
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true })
+      }
     }
     
     dbInstance = new Database(dbPath)
