@@ -11,6 +11,14 @@
     <link rel="stylesheet" href="css/announcement.css">
 </head>
 <body>
+    <!-- Auth Check -->
+    <script>
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!token || user.role !== 'employee') {
+            window.location.href = '../Landing Page/landing.html';
+        }
+    </script>
     <!-- Mobile Menu Button -->
     <button id="mobile-menu-button" aria-label="Toggle navigation menu">
         <span></span>

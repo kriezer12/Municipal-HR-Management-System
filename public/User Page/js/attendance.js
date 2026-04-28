@@ -137,28 +137,24 @@ class AttendanceManager {    constructor() {
         // Try to reinitialize elements if they weren't found initially
         this.reinitializeElements();
         
+        const token = localStorage.getItem('token');
+        
         try {
             // Add cache-busting parameter and a timeout
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
             
-            const response = await fetch(`../handlers/attendance_handler.php?t=${new Date().getTime()}`, {
-                signal: controller.signal
+            const response = await fetch(`/api/attendance?t=${new Date().getTime()}`, {
+                signal: controller.signal,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
             
             clearTimeout(timeoutId);
             
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
-                
-                // Try to get more detailed error information
-                try {
-                    const errorText = await response.text();
-                    console.error('Error response:', errorText);
-                } catch (textError) {
-                    console.error('Could not read error response text');
-                }
-                
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
               const result = await response.json();
@@ -353,6 +349,7 @@ class AttendanceManager {    constructor() {
     }
       async loadAttendanceHistory() {
         const selectedMonth = this.monthFilter.value;
+        const token = localStorage.getItem('token');
         
         // Show loading state
         this.attendanceTable.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Loading attendance records...</td></tr>';
@@ -362,29 +359,22 @@ class AttendanceManager {    constructor() {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
             
-            const response = await fetch(`../handlers/attendance_handler.php?month=${selectedMonth}&t=${new Date().getTime()}`, {
-                signal: controller.signal
+            const response = await fetch(`/api/attendance?month=${selectedMonth}&t=${new Date().getTime()}`, {
+                signal: controller.signal,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
             
             clearTimeout(timeoutId);
             
             if (!response.ok) {
-                // Try to get more detailed error information
-                let errorMessage = `HTTP error! status: ${response.status}`;
-                try {
-                    const errorText = await response.text();
-                    console.error('Error response:', errorText);
-                    errorMessage += ` - ${errorText}`;
-                } catch (textError) {
-                    console.error('Could not read error response text');
-                }
-                
-                throw new Error(errorMessage);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const result = await response.json();
               if (result.success) {
-                this.updateAttendanceTable(result.attendance);
+                this.updateAttendanceTable(result.attendance || result.data || []);
                 
                 // Update page title to show current employee and month
                 const monthName = this.getMonthName(parseInt(selectedMonth.split('-')[1]) - 1);
@@ -450,7 +440,7 @@ class AttendanceManager {    constructor() {
         }
     }    async handleTimeIn() {        
         try {
-            const response = await fetch('../handlers/attendance_handler.php', {
+            const response = await fetch('/api/attendance', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -494,7 +484,7 @@ class AttendanceManager {    constructor() {
     
     async handleTimeOut() {        
         try {
-            const response = await fetch('../handlers/attendance_handler.php', {
+            const response = await fetch('/api/attendance', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
