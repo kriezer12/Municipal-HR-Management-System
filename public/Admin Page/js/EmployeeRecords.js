@@ -26,8 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load employees from database
     function loadEmployees() {
         showLoading(true);
+        const token = localStorage.getItem('token');
         
-        fetch('../handlers/get_employees.php')
+        fetch('/api/employees', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 showLoading(false);

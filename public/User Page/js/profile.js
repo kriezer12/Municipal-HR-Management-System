@@ -1,11 +1,48 @@
-// Load documents and COE requests when the page loads
+// Load profile and other data when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    loadDocuments();
-    loadCOERequests();
-    setupEventListeners();
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '../Landing Page/landing.html';
+        return;
+    }
+
+    fetchProfile(token);
+    loadDocuments(token);
+    loadCOERequests(token);
+    setupEventListeners(token);
 });
 
-function setupEventListeners() {
+async function fetchProfile(token) {
+    try {
+        const response = await fetch('/api/user/me', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+            const user = data.user;
+            const emp = user.employee || {};
+            
+            document.getElementById('fullName').value = `${emp.first_name || ''} ${emp.last_name || ''}`.trim() || user.email;
+            document.getElementById('position').value = emp.position || 'N/A';
+            document.getElementById('department').value = emp.department || 'N/A';
+            document.getElementById('employment').value = emp.employment_type || 'N/A';
+            document.getElementById('email').value = user.email;
+            document.getElementById('phone').value = emp.phone || 'N/A';
+            document.getElementById('address').value = emp.address || 'N/A';
+            
+            if (document.getElementById('status')) {
+                document.getElementById('status').textContent = emp.status || 'Active';
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching profile:', error);
+    }
+}
+
+function setupEventListeners(token) {
     // Document upload form submission
     const uploadForm = document.getElementById('uploadForm');
     uploadForm.addEventListener('submit', async (e) => {
