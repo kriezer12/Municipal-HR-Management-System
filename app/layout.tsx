@@ -3,6 +3,9 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'LOKAL HRMS - Municipality of Concepcion',
   description: 'Human Resource Management System for Municipality of Concepcion',
+  icons: {
+    icon: '/assets/municipality logo.png',
+  },
 }
 
 export default function RootLayout({
