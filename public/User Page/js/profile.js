@@ -132,16 +132,23 @@ function setupEventListeners(token) {
     });
 }
 
-async function loadDocuments() {
+async function loadDocuments(token) {
     try {
-        const response = await fetch('../handlers/get_documents.php');
+        const response = await fetch('/api/documents', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         const data = await response.json();
         
         if (response.ok && data.success) {
             const documentList = document.querySelector('.document-list');
             let html = '';
 
-            data.documents.forEach(doc => {
+            if (!data.data || data.data.length === 0) {
+                documentList.innerHTML = '<div class="no-data">No documents uploaded yet.</div>';
+                return;
+            }
+
+            data.data.forEach(doc => {
                 const statusClass = doc.status.toLowerCase();
                 html += `
                     <div class="document-item">
@@ -167,23 +174,30 @@ async function loadDocuments() {
 
             documentList.innerHTML = html;
         } else {
-            throw new Error(data.error || data.message || 'Failed to retrieve documents.');
+            console.warn('Failed to retrieve documents:', data.message);
         }
     } catch (error) {
-        alert(`Failed to load documents: ${error.message}`);
+        console.error('Failed to load documents:', error);
     }
 }
 
-async function loadCOERequests() {
+async function loadCOERequests(token) {
     try {
-        const response = await fetch('../handlers/get_coe_requests.php');
+        const response = await fetch('/api/coe/requests', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         const data = await response.json();
         
         if (response.ok && data.success) {
             const coeList = document.querySelector('.coe-list');
             let html = '';
 
-            data.requests.forEach(request => {
+            if (!data.data || data.data.length === 0) {
+                coeList.innerHTML = '<div class="no-data">No COE requests yet.</div>';
+                return;
+            }
+
+            data.data.forEach(request => {
                 const statusClass = request.status.toLowerCase();
                 html += `
                     <div class="coe-item">
@@ -209,10 +223,10 @@ async function loadCOERequests() {
 
             coeList.innerHTML = html;
         } else {
-            throw new Error(data.error || data.message || 'Failed to retrieve COE requests.');
+            console.warn('Failed to retrieve COE requests:', data.message);
         }
     } catch (error) {
-        alert(`Failed to load COE requests: ${error.message}`);
+        console.error('Failed to load COE requests:', error);
     }
 }
 
