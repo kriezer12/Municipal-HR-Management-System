@@ -1,0 +1,43 @@
+{
+  "name": "municipal-hr-management-system",
+  "version": "1.0.0",
+  "description": "A comprehensive Human Resource Management System (HRMS) designed specifically for the Municipality of Concepcion, Province of Tarlac, Philippines. This system streamlines and modernizes HR processes while embodying our local values: \"Lúgud king Tawu, Dángal king Balen\" (Love for People, Honor for the Town).",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run seed && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "ts-node scripts/seed.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kriezer12/Municipal-HR-Management-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kriezer12/Municipal-HR-Management-System/issues"
+  },
+  "homepage": "https://github.com/kriezer12/Municipal-HR-Management-System#readme",
+  "dependencies": {
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "jwt-simple": "^0.5.6",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sqlite3": "^6.0.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.9.0",
+    "ts-node": "^10.9.2"
+  }
+}

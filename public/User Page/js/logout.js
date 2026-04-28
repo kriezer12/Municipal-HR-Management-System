@@ -19,27 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (confirmLogoutBtn) {
             confirmLogoutBtn.addEventListener('click', () => {
-                fetch('../handlers/logout.php', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = '../index.html';
-                    } else {
-                        alert('Logout failed. Please try again.');
-                        logoutModal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                })
-                .catch(error => {
-                    console.error('Logout error:', error);
-                    window.location.href = '../index.html';
-                });
+                // Clear local storage
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                
+                // Redirect to landing page
+                window.location.href = '../Landing Page/landing.html';
             });
         }
 

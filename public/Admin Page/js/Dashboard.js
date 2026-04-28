@@ -1,11 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetchEmployeeStats();
-    fetchDepartmentData();
-    fetchEmploymentTypeData();
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '../Landing Page/landing.html';
+        return;
+    }
+
+    fetchEmployeeStats(token);
+    fetchDepartmentData(token);
+    fetchEmploymentTypeData(token);
 });
 
-function fetchEmployeeStats() {
-    fetch('../handlers/get_employees.php')
+function fetchEmployeeStats(token) {
+    fetch('/api/employees', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             if (data.success && data.data) {
@@ -21,7 +31,6 @@ function fetchEmployeeStats() {
                 updateStatCard('totalAbsentStat', absentEmployees); 
             } else {
                 console.error('Failed to load employee stats:', data.message);
-                // Optionally display an error or default values
                 updateStatCard('totalEmployeesStat', 'N/A');
                 updateStatCard('activeRateStat', 'N/A');
             }
@@ -33,8 +42,12 @@ function fetchEmployeeStats() {
         });
 }
 
-function fetchDepartmentData() {
-    fetch('../handlers/get_department_stats.php')
+function fetchDepartmentData(token) {
+    fetch('/api/stats/departments', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             console.log('Department data received:', data);
@@ -42,7 +55,6 @@ function fetchDepartmentData() {
                 renderDepartmentChart(data.data);
             } else {
                 console.warn('No department data available:', data);
-                // Show a message instead of sample data
                 document.getElementById('departmentChart').innerHTML = 
                     '<div class="no-data-message">No department data available</div>';
             }
@@ -54,10 +66,12 @@ function fetchDepartmentData() {
         });
 }
 
-// Function removed - not needed
-
-function fetchEmploymentTypeData() {
-    fetch('../handlers/get_employment_types.php')
+function fetchEmploymentTypeData(token) {
+    fetch('/api/stats/employment-types', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             console.log('Employment type data received:', data);
@@ -65,7 +79,6 @@ function fetchEmploymentTypeData() {
                 renderEmploymentTypeChart(data.data);
             } else {
                 console.warn('No employment type data available:', data);
-                // Show a message instead of sample data
                 document.getElementById('employmentTypeChart').innerHTML = 
                     '<div class="no-data-message">No employment type data available</div>';
             }

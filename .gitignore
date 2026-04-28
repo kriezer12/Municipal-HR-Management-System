@@ -1,3 +1,14 @@
 # Ignore personal document uploads
 uploads/documents/
 uploads/documents/* 
+node_modules
+
+# Build and dev
+.next
+dist
+*.db
+*.db-shm
+*.db-wal
+.env.local
+.env.*.local
+.DS_Store
